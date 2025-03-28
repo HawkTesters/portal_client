@@ -1,8 +1,15 @@
 {
   "compilerOptions": {
     "target": "ES2017",
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "allowSyntheticDefaultImports": true,
     "allowJs": true,
+    "outDir": "dist",
+    "rootDir": ".",
     "skipLibCheck": true,
     "strict": true,
     "noEmit": true,
@@ -19,9 +26,20 @@
       }
     ],
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": [
+        "./src/*"
+      ]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
-  "exclude": ["node_modules"]
+"include": [
+  "prisma/**/*.ts",
+  "prisma/**/*.json",
+  "src/**/*.ts",
+  "src/**/*.tsx",
+  ".next/types/**/*.ts",
+  "types/next-auth.d.ts"
+],
+  "exclude": [
+    "node_modules"
+  ]
 }

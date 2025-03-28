@@ -1,0 +1,83 @@
+{
+  "profileImage": "/assets/images/isaac_iglesias.jpeg",
+  "profileName": "Isaac Iglesias",
+  "jobTitle": "Penetration Tester",
+  "email": "isaac.iglesias@hawktesters.com",
+  "languages": [
+    { "language": "English", "level": "Fluent C2" },
+    { "language": "Spanish", "level": "Native" },
+    { "language": "Italian", "level": "Native" },
+    { "language": "Catalan", "level": "Native" }
+  ],
+  "interests": [ "Web Security", "Infrastructure", "Social Engineering" ],
+  "greetingTitle": "Hello,",
+  "greetingDescription": "Isaac is a dedicated security researcher and software engineer with specialized expertise in vulnerability analysis and offensive security. With hands-on experience at one of Spain's leading Counter-Unmanned Aerial Systems (C-UAS) companies, he has successfully merged software engineering with security research to protect critical infrastructures and digital ecosystems. Notably, Isaac has contributed to the cybersecurity community by discovering six CVEs, reinforcing his proactive approach to emerging threats and the development of robust security frameworks.",
+  "education": [
+    {
+      "yearRange": "2021 - 2023",
+      "title": "Universitat Politecnica de Catalunya (UPC)",
+      "subtitle": "BSc ICT Systems Engineering",
+      "description": "I hold a degree in ICT Systems Engineering, with training in software development, networking, telecommunications, and cybersecurity. My studies focused on designing and maintaining complex ICT infrastructures, integrating advanced technologies to optimize processes and improve system reliability and security. This foundation equips me to excel in dynamic and high-impact ICT environments."
+    }
+  ],
+  "experience": [
+    {
+      "yearRange": "2023 - now",
+      "title": "Penetration Tester",
+      "subtitle": "Dong IT B.V.",
+      "description": "In my role at DongIT B.V., I conducted security audits across web applications, mobile applications, and infrastructure environments (including Active Directory). This entailed identifying and exploiting high-risk vulnerabilities—such as SQL Injection, Cross-Site Request Forgery (CSRF), and Remote Code Execution with the objective to enhance the organization's security posture. I also designed and implemented specialized tools to streamline internal penetration testing processes, improving the speed and accuracy of security assessments."
+    },
+    {
+      "yearRange": "2022 - 2024",
+      "title": "Full Stack Engineer",
+      "subtitle": "ASDT Systems S.L.",
+      "description": "As a Full Stack Engineer at ASDT Systems, I contributed to the design, development, and maintenance of a C-UAS (Counter-Unmanned Aircraft System) application. Serving clients like the Ministerio del Interior, BBVA, and Telefónica, this real-time solution successfully identified and monitored over 46,000 drone flights in a single year. My work involved managing both front-end and back-end components, optimizing performance, and ensuring the application met stringent operational and security requirements for high-profile deployments."
+    }
+  ],
+  "services": [
+    {
+      "icon": "/assets/images/001-target.svg",
+      "alt": "Target",
+      "name": "Web designing",
+      "description": "Mauris magna sapien..."
+    }
+  ],
+    "cves": [
+    "CVE-2024-46079",
+    "CVE-2024-46080",
+    "CVE-2024-46081",
+    "CVE-2024-46082",
+    "CVE-2024-46083",
+    "CVE-2024-46084"
+],
+  "certifications": [
+    { "title": "Practical Network Penetration Tester", "logo": "/assets/certifications/PNPT.png", "alt": "PNPT", "href": "https://certified.tcm-sec.com/4d1e09aa-40bc-4ac0-b4a5-1e847a42aa9b" },
+    { "title": "Offensive Security Certified Professional", "logo": "/assets/certifications/OSCP.png", "alt": "OSCP", "href": "https://credentials.offsec.com/77637923-ae80-4b14-bbf5-38adcd9cd1af" },
+    { "title": "Offensive Security Certified Professional Plus", "logo": "/assets/certifications/OSCP_PLUS.png", "alt": "OSCP+", "href": "https://credentials.offsec.com/04e5dcca-f32f-410c-bafe-902c59e7fef2" }
+  ],
+  "achievements": [
+    {
+      "icon": "/assets/images/puzzle.svg",
+      "value": "100+",
+      "description": "COMPLETED ASSESSMENTS"
+    },
+    {
+      "icon": "/assets/images/001-target.svg",
+      "value": "6",
+      "description": "PUBLISHED CVEs"
+    }
+  ],
+  "testimonials": [
+    {
+      "quote": "Thanks to their thorough penetration testing, we addressed security gaps we never knew existed. Their report made it easy for us to take immediate steps.",
+      "image": "/assets/clients/RyvalLogo.png",
+      "name": "CEO @ Ryval S.L."
+    },
+    {
+      "quote": "Their team was professional, transparent, and responsive. We walked away with concrete solutions to strengthen our security posture.",
+      "image": "/assets/clients/Logo_Banco_BISA.png",
+      "name": "Threat and Vulnerability Management Specialist @ Banco BISA S.A."
+    }
+  ],
+  "footerText": "Live Resume @ BootstrapDash. All Rights Reserved 2020"
+}

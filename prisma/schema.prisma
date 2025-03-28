@@ -1,0 +1,207 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum UserType {
+  GENERIC
+  TEAM
+  CLIENT
+  ADMIN
+}
+
+enum AssessmentStatus {
+  ACTIVE
+  PROGRAMMED
+  ON_HOLD
+  COMPLETED
+}
+
+/// New enum to categorize uploaded files.
+enum UploadedFileCategory {
+  CERTIFICATE
+  EXECUTIVE_REPORT
+  TECHNICAL_REPORT
+  ADDITIONAL_FILE
+}
+
+// ======================
+// UPDATED UploadedFile MODEL
+// ======================
+model UploadedFile {
+  id        String               @id @default(uuid())
+  filePath  String // e.g., "assets/uploads/<filename>"
+  fileName  String
+  mimeType  String?
+  fileSize  Int?
+  isPublic  Boolean              @default(false)
+  category  UploadedFileCategory // Category: certificate, executive report, technical report, or additional file.
+  createdAt DateTime             @default(now())
+  updatedAt DateTime             @updatedAt
+
+  // Relationship to the User who uploaded the file.
+  uploadedById String
+  uploadedBy   User   @relation(fields: [uploadedById], references: [id])
+
+  // Relationship to the Assessment this file belongs to.
+  assessmentId String
+  assessment   Assessment @relation(fields: [assessmentId], references: [id])
+}
+
+// ======================
+// EXISTING MODELS
+// ======================
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  name      String?
+  password  String?
+  userType  UserType
+  clientId  String?
+  client    Client?  @relation(fields: [clientId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  cv                  CV?
+  assignedAssessments Assessment[]
+
+  twoFactorEnabled Boolean @default(false)
+  twoFactorSecret  String?
+
+  lastAccess     DateTime?
+  firstTimeLogin Boolean   @default(true)
+
+  avatarUrl String?
+
+  // Files this user has uploaded.
+  uploadedFiles UploadedFile[]
+}
+
+model CV {
+  id                  String   @id @default(uuid())
+  profileImage        String
+  profileName         String
+  jobTitle            String
+  email               String
+  greetingTitle       String?
+  greetingDescription String?
+  footerText          String?
+  languages           String[]
+  interests           String[]
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [id])
+
+  education          Education[]
+  experience         Experience[]
+  services           Service[]
+  achievements       Achievement[]
+  testimonials       Testimonial[]
+  userCertifications UserCertification[]
+  Certification      Certification[]
+}
+
+model Education {
+  id          String @id @default(uuid())
+  cv          CV     @relation(fields: [cvId], references: [id])
+  cvId        String
+  yearRange   String
+  title       String
+  subtitle    String
+  description String
+}
+
+model Experience {
+  id          String @id @default(uuid())
+  cv          CV     @relation(fields: [cvId], references: [id])
+  cvId        String
+  yearRange   String
+  title       String
+  subtitle    String
+  description String
+}
+
+model Service {
+  id          String @id @default(uuid())
+  cv          CV     @relation(fields: [cvId], references: [id])
+  cvId        String
+  icon        String
+  alt         String
+  name        String
+  description String
+}
+
+model Achievement {
+  id          String @id @default(uuid())
+  cv          CV     @relation(fields: [cvId], references: [id])
+  cvId        String
+  icon        String
+  value       String
+  description String
+}
+
+model Testimonial {
+  id    String @id @default(uuid())
+  cv    CV     @relation(fields: [cvId], references: [id])
+  cvId  String
+  quote String
+  image String
+  name  String
+}
+
+model Certification {
+  id                 String              @id @default(uuid())
+  logo               String
+  alt                String
+  title              String              @unique
+  // Relation to join table
+  userCertifications UserCertification[]
+  CV                 CV?                 @relation(fields: [cVId], references: [id])
+  cVId               String?
+}
+
+model UserCertification {
+  id              String        @id @default(uuid())
+  href            String // User-specific certification link
+  cvId            String
+  cv              CV            @relation(fields: [cvId], references: [id])
+  certificationId String
+  certification   Certification @relation(fields: [certificationId], references: [id])
+
+  @@unique([cvId, certificationId])
+}
+
+model Client {
+  id        String   @id @default(uuid())
+  name      String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  logoUrl   String?
+
+  assessments Assessment[]
+  users       User[]
+}
+
+model Assessment {
+  id        String           @id @default(uuid())
+  title     String           @unique
+  status    AssessmentStatus @default(PROGRAMMED)
+  deadline  DateTime
+  createdAt DateTime         @default(now())
+  updatedAt DateTime         @updatedAt
+
+  clientId    String
+  client      Client @relation(fields: [clientId], references: [id])
+  teamMembers User[]
+
+  // All files linked to this assessment.
+  // Use the UploadedFileCategory field on UploadedFile to filter for certificate, executive report,
+  // technical report, or additional files.
+  uploadedFiles UploadedFile[]
+}

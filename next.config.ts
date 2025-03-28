@@ -1,7 +1,17 @@
-import type { NextConfig } from "next";
-
-const nextConfig: NextConfig = {
-  /* config options here */
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  i18n: {
+    locales: ["en", "es"],
+    defaultLocale: "en",
+  },
+  images: {
+    domains: ["api.slingacademy.com"],
+  },
+  experimental: {
+    serverActions: {
+      bodySizeLimit: "5mb",
+    },
+  },
 };
 
-export default nextConfig;
+module.exports = nextConfig;
