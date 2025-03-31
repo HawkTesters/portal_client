@@ -22,7 +22,7 @@ ENV NODE_ENV production
 
 # Install only production dependencies
 COPY package.json package-lock.json* ./
-RUN npm ci --omit=dev
+RUN npm install --production
 
 # Copy built files from builder stage
 COPY --from=builder /app/.next ./.next
