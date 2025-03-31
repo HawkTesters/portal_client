@@ -2,7 +2,7 @@ import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 
 export async function GET(
-  request: Request,
+  _: Request,
   { params }: { params: { id: string } }
 ) {
   try {
@@ -17,7 +17,6 @@ export async function GET(
         teamMembers: true,
       },
     });
-    console.log(assessment);
 
     if (!assessment) {
       return NextResponse.json(
