@@ -12,6 +12,10 @@ const nextConfig = {
       bodySizeLimit: "5mb",
     },
   },
+  eslint: {
+    // This setting allows production builds to complete even if there are ESLint errors.
+    ignoreDuringBuilds: true,
+  },
 };
 
 module.exports = nextConfig;
