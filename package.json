@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack",
+    "dev": "next dev --port 9085 --turbopack",
     "build": "next build",
-    "start": "next start",
+    "start": "next start -p 9085",
     "lint": "next lint",
     "seed": "npm run seed:build && node dist/prisma/seed.js",
     "seedProd": "npm run seedProd:build && node dist/prisma/seed.js",
