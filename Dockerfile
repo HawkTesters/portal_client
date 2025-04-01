@@ -10,6 +10,7 @@ RUN npm ci
 # Build app and prepare prisma seed files
 FROM deps AS builder
 COPY . .
+RUN npx prisma generate
 RUN npm run build
 RUN npm run seedProd:build
 # Move isaac_cv.json into dist/prisma
