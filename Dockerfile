@@ -7,17 +7,18 @@ WORKDIR /app
 COPY package.json package-lock.json* ./
 RUN npm ci
 
-# Build app and prepare prisma seed files
+# Build app and prepare Prisma seed files
 FROM deps AS builder
+WORKDIR /app
 COPY . .
 RUN npx prisma generate
 RUN npm run build
 RUN npm run seedProd:build
-# Move isaac_cv.json into dist/prisma
+# Move isaac_cv.json into dist/prisma for the seed
 RUN mkdir -p dist/prisma && cp prisma/isaac_cv.json dist/prisma/
 
 # Production image
-FROM base AS runner
+FROM node:20-alpine AS runner
 WORKDIR /app
 ENV NODE_ENV production
 
@@ -25,15 +26,12 @@ ENV NODE_ENV production
 COPY package.json package-lock.json* ./
 RUN npm install --production
 
-# Copy built files from builder stage
-COPY --from=builder /app/.next ./.next
-COPY --from=builder /app/public ./public
-COPY --from=builder /app/prisma ./prisma
+# Copy the built application from the builder stage
 COPY --from=builder /app/dist ./dist
-COPY --from=builder /app/tsconfig.json ./
+COPY --from=builder /app/prisma ./prisma
 
-# Expose port
+# Expose the port the app runs on
 EXPOSE 9085
 
-# Run Prisma migration, seed, and start app
+# Run Prisma migrations, seed, and start the app
 CMD ["sh", "-c", "npx prisma migrate deploy && npm run seedProd && npm start"]
