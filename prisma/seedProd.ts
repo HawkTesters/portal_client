@@ -1,8 +1,8 @@
-import { hashPassword } from "../src/lib/password-utils";
-import { getGravatarUrl } from "../src/lib/utils";
-import { AssessmentStatus, PrismaClient, UserType } from "@prisma/client";
+const { hashPassword } = require("../src/lib/password-utils");
+const { getGravatarUrl } = require("../src/lib/utils");
+const { AssessmentStatus, PrismaClient, UserType } = require("@prisma/client");
 
-const isaacCV = require("./isaac_cv.json"); // or import isaacCV from './isaac_cv.json';
+const isaacCV = require("./isaac_cv.json");
 
 const prisma = new PrismaClient();
 
@@ -39,7 +39,7 @@ async function main() {
       email: "admin@hawktesters.com",
       userType: UserType.ADMIN,
       password: await hashPassword("admin@123HT#"),
-      avatarUrl: getGravatarUrl("admin@hawktesters.com"), // <== Add this
+      avatarUrl: getGravatarUrl("admin@hawktesters.com"),
     },
   });
 
@@ -61,7 +61,7 @@ async function main() {
       userType: UserType.CLIENT,
       password: await hashPassword("client@123HT#"),
       client: { connect: { id: client.id } },
-      avatarUrl: getGravatarUrl("client@hawktesters.com"), // <== Add this
+      avatarUrl: getGravatarUrl("client@hawktesters.com"),
     },
   });
 
@@ -77,28 +77,28 @@ async function main() {
     {
       title: "Active Security Review",
       status: AssessmentStatus.ACTIVE,
-      deadline: futureDate, // Active until next month
+      deadline: futureDate,
     },
     {
       title: "Planned Network Audit",
       status: AssessmentStatus.PROGRAMMED,
-      deadline: futureDate, // Scheduled for next month
+      deadline: futureDate,
     },
     {
       title: "Paused Compliance Check",
       status: AssessmentStatus.ON_HOLD,
-      deadline: now, // On hold until now
+      deadline: now,
     },
     {
       title: "Completed Code Review",
       status: AssessmentStatus.COMPLETED,
-      deadline: pastDate, // Completed last month
+      deadline: pastDate,
     },
   ];
 
   for (const assessment of assessments) {
     await prisma.assessment.upsert({
-      where: { title: assessment.title }, // Ensure uniqueness based on title
+      where: { title: assessment.title },
       update: {},
       create: {
         title: assessment.title,
@@ -230,10 +230,8 @@ async function main() {
   }
 
   // 13) Seed/Upsert and connect each Certification via the join model UserCertification
-  // Note: We assume each certification in isaacCV.certifications includes a `title`, `logo`, `alt`, and a user-specific `href`
   if (isaacCV.certifications && isaacCV.certifications.length) {
     for (const cert of isaacCV.certifications) {
-      // Upsert the static Certification record (using title as the unique identifier)
       const certRecord = await prisma.certification.upsert({
         where: { title: cert.title },
         update: {},
@@ -244,9 +242,7 @@ async function main() {
         },
       });
 
-      // Upsert the join record in UserCertification to link the CV with this Certification, storing the user-specific href
       await prisma.userCertification.upsert({
-        // This uses the compound unique key defined as @@unique([cvId, certificationId])
         where: {
           cvId_certificationId: {
             cvId: cvRecord.id,
@@ -266,7 +262,6 @@ async function main() {
   console.log("Seeding complete!");
 }
 
-// Execute the main function
 main()
   .then(() => prisma.$disconnect())
   .catch((error) => {
