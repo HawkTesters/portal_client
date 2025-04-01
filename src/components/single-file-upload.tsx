@@ -153,9 +153,10 @@ export default function SingleFileUpload({
                               </span>
                             )}
                             <div className="text-xs">
-                              {(existingFile.fileSize / (1024 * 1024)).toFixed(
-                                1
-                              )}{" "}
+                              {(
+                                (existingFile && existingFile?.fileSize) ||
+                                0 / (1024 * 1024)
+                              ).toFixed(1)}{" "}
                               MB
                             </div>
                           </div>

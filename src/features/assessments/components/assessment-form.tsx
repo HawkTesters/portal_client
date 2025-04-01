@@ -37,17 +37,17 @@ import * as z from "zod";
  * We need a matching SingleFile interface for returning from uploadSingleFile
  */
 export interface SingleFile {
-  assessmentId: string;
-  category: string;
-  createdAt: string;
-  fileName: string;
-  filePath: string;
-  fileSize: number;
-  id: string;
-  isPublic: false;
-  mimeType: string;
-  updatedAt: string;
-  uploadedById: string;
+  assessmentId?: string;
+  category?: string;
+  createdAt?: string;
+  fileName?: string;
+  filePath?: string;
+  fileSize?: number;
+  id?: string;
+  isPublic?: false;
+  mimeType?: string;
+  updatedAt?: string;
+  uploadedById?: string;
 }
 
 const defaultValues = {
@@ -237,15 +237,13 @@ export default function AssessmentForm({
         toast.error("Files upload did not return an array");
         return [];
       }
-
-      // Return the correct shape for UploadedFile
       return newFiles.map((f: any) => ({
         id: f.id,
-        name: f.fileName,
-        size: f.fileSize || 0,
-        url: `/api/upload/${f.id}`,
+        name: f.fileName, // Map fileName to name
+        size: f.fileSize || 0, // Map fileSize to size (default to 0 if null)
+        url: `/api/upload/${f.id}`, // Generate a URL based on the file id
         isPublic: f.isPublic,
-        category: f.category, // or fallback to "ADDITIONAL_FILE"
+        category: f.category,
       }));
     } catch (error) {
       console.error("Error uploading files:", error);

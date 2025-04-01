@@ -1,8 +1,9 @@
 // /app/api/team-members/route.ts
-import { NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma";
 
-export async function GET(request: Request) {
+import { prisma } from "@/lib/prisma";
+import { NextResponse } from "next/server";
+
+export async function GET(_: Request) {
   try {
     // Optionally you could parse query params here for pagination/search.
     const teamMembers = await prisma.user.findMany({
@@ -53,14 +54,6 @@ export async function POST(request: Request) {
         name,
         email,
         userType: "TEAM",
-        // Optionally link to a client if needed (e.g., using clientId from the payload).
-        cv: cvBio
-          ? {
-              create: {
-                bio: cvBio,
-              },
-            }
-          : undefined,
       },
       include: {
         cv: true,

@@ -4,7 +4,7 @@ import { NextResponse } from "next/server";
 
 export async function POST(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     // Parse the request JSON to get the new password

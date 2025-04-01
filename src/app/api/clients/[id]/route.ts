@@ -1,10 +1,11 @@
 // app/api/clients/[id]/route.ts
-import { NextResponse } from "next/server";
+
 import { prisma } from "@/lib/prisma";
+import { NextResponse } from "next/server";
 
 export async function GET(
-  request: Request,
-  { params }: { params: { id: string } }
+  _: Request,
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const { id } = await params;
@@ -27,14 +28,16 @@ export async function GET(
 
 export async function PUT(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const body = await request.json();
     // Expecting updated fields: { name: string, email?: string }
+    const { id } = await params;
+
     const { name } = body;
     const updatedClient = await prisma.client.update({
-      where: { id: params.id },
+      where: { id },
       data: { name },
     });
     return NextResponse.json(updatedClient);
@@ -49,11 +52,12 @@ export async function PUT(
 
 export async function DELETE(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     await prisma.client.delete({
-      where: { id: params.id },
+      where: { id },
     });
     return NextResponse.json({ message: "Client deleted successfully" });
   } catch (error) {

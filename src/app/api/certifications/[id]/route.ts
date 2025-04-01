@@ -1,13 +1,14 @@
-import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { NextResponse } from "next/server";
 
 export async function GET(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     const certification = await prisma.certification.findUnique({
-      where: { id: params.id },
+      where: { id },
     });
     if (!certification) {
       return NextResponse.json(
@@ -27,13 +28,14 @@ export async function GET(
 
 export async function PUT(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const body = await request.json();
     const { title, logo, alt } = body;
+    const { id } = await params;
     const certification = await prisma.certification.update({
-      where: { id: params.id },
+      where: { id },
       data: {
         title,
         logo,
@@ -51,12 +53,13 @@ export async function PUT(
 }
 
 export async function DELETE(
-  request: Request,
-  { params }: { params: { id: string } }
+  _: Request,
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     const certification = await prisma.certification.delete({
-      where: { id: params.id },
+      where: { id },
     });
     return NextResponse.json(certification);
   } catch (error) {

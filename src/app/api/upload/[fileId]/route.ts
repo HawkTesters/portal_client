@@ -10,11 +10,11 @@ import path from "path";
 // GET /api/uploads/[fileId]
 // -----------------------------------------
 export async function GET(
-  request: NextRequest,
-  { params }: { params: { fileId: string } }
+  _: NextRequest,
+  { params }: { params: Promise<{ fileId: string }> }
 ) {
   try {
-    const { fileId } = params;
+    const { fileId } = await params;
 
     // Find the record in the DB
     const fileRecord = await prisma.uploadedFile.findUnique({
@@ -60,7 +60,7 @@ export async function GET(
 // Example JSON body: { "isPublic": true }
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { fileId: string } }
+  { params }: { params: Promise<{ fileId: string }> }
 ) {
   try {
     const { fileId } = await params;
@@ -112,7 +112,7 @@ export async function PUT(
 // -----------------------------------------
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { fileId: string } }
+  { params }: { params: Promise<{ fileId: string }> }
 ) {
   try {
     const { fileId } = await params;

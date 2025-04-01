@@ -88,7 +88,7 @@ export const hawktesters = {
       image: "/assets/clients/Logo_Banco_BISA.png",
       name: "Threat and Vulnerability Management Specialist @ Banco BISA S.A.",
     },
-  ]
+  ],
 };
 
 // data.js
@@ -123,7 +123,7 @@ export const navItems = [
   },
   {
     title: "Client",
-    url: (session) => `/dashboard/client/${session.user.clientId || ""}`,
+    url: (session: any) => `/dashboard/client/${session.user.clientId || ""}`,
     icon: "contact",
     shortcut: ["c", "c"],
     isActive: false,

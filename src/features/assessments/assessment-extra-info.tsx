@@ -19,7 +19,7 @@ interface AssessmentExtraInfoProps {
 
 // Constrain TData to objects with an id property
 export function DataTableWrapper<TData extends { id: string }>() {
-  return DataTable as unknown as DataTable<TData, unknown>;
+  return DataTable as unknown as typeof DataTable<TData, unknown>;
 }
 
 const columns: ColumnDef<TeamMember>[] = [

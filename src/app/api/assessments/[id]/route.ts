@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 
 export async function GET(
   _: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const { id } = await params;
@@ -55,11 +55,12 @@ export async function PUT(
 
 export async function DELETE(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     await prisma.assessment.delete({
-      where: { id: params.id },
+      where: { id },
     });
     return NextResponse.json({ message: "Assessment deleted" });
   } catch (error) {

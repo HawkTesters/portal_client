@@ -1,6 +1,6 @@
-import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { AssessmentStatus } from "@prisma/client";
+import { NextResponse } from "next/server";
 
 export async function GET(request: Request) {
   try {
@@ -48,17 +48,7 @@ export async function GET(request: Request) {
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const {
-      title,
-      certificate,
-      executiveReport,
-      technicalReport,
-      additionalFiles,
-      clientId,
-      teamMemberIds,
-      status,
-      deadline,
-    } = body;
+    const { title, clientId, teamMemberIds, status, deadline } = body;
 
     // Validate required fields
     if (!title || !clientId || !status || !deadline) {
@@ -112,10 +102,6 @@ export async function POST(request: Request) {
     const assessment = await prisma.assessment.create({
       data: {
         title,
-        certificate: certificate || null,
-        executiveReport: executiveReport || null,
-        technicalReport: technicalReport || null,
-        additionalFiles: additionalFiles || [],
         status,
         deadline: parsedDeadline,
         client: { connect: { id: clientId } },

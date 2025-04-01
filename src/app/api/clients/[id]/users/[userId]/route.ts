@@ -1,15 +1,16 @@
 // app/api/clients/[clientId]/users/[userId]/route.ts
 
+import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma"; // adjust the import path as needed
+
+// adjust the import path as needed
 
 export async function DELETE(
-  request: Request,
-  { params }: { params: { id: string; userId: string } }
+  _: Request,
+  { params }: { params: Promise<{ id: string; userId: string }> }
 ) {
   const { id, userId } = await params;
 
-  console.log(params);
   try {
     // Check that the user exists
     const user = await prisma.user.findUnique({

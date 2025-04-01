@@ -32,6 +32,7 @@ import {
   SidebarMenuSubItem,
   SidebarRail,
 } from "@/components/ui/sidebar";
+import { $Enums } from "@prisma/client";
 import { ChevronRight, GalleryVerticalEnd } from "lucide-react";
 import {
   ChevronsUpDown,
@@ -52,24 +53,35 @@ export const company = {
   plan: "Penetration Testers",
 };
 
+enum UserType {
+  GENERIC = "GENERIC",
+  TEAM = "TEAM",
+  CLIENT = "CLIENT",
+  ADMIN = "ADMIN",
+}
+
 export default function AppSidebar() {
   const { data: session } = useSession();
   const pathname = usePathname();
-  const userRole = session?.user?.userType || "GENERIC"; // Expecting: "GENERIC", "TEAM", "CLIENT", "ADMIN"
+  const userRole: $Enums.UserType =
+    session?.user?.userType || $Enums.UserType.GENERIC;
 
-  // Filter nav items based on the user's role
-  // inside AppSidebar component
   const filteredNavItems = navItems
     .map((item) => {
       if (item.items && item.items.length > 0) {
         const filteredSubItems = item.items.filter(
-          (subItem) => !subItem.roles || subItem.roles.includes(userRole)
+          (subItem) =>
+            !subItem.roles ||
+            subItem.roles.includes(userRole as unknown as UserType)
         );
         return { ...item, items: filteredSubItems };
       }
       return item;
     })
-    .filter((item) => !item.roles || item.roles.includes(userRole))
+    .filter(
+      (item) =>
+        !item.roles || item.roles.includes(userRole as unknown as UserType)
+    )
     .map((item) => ({
       ...item,
       url: typeof item.url === "function" ? item.url(session) : item.url,
@@ -92,8 +104,10 @@ export default function AppSidebar() {
         <SidebarGroup>
           <SidebarGroupLabel>Overview</SidebarGroupLabel>
           <SidebarMenu>
-            {filteredNavItems.map((item) => {
-              const Icon = item.icon ? Icons[item.icon] : Icons.logo;
+            {filteredNavItems.map((item: any) => {
+              const Icon = item.icon
+                ? Icons[item.icon as keyof typeof Icons]
+                : Icons.logo;
               return item?.items && item?.items.length > 0 ? (
                 <Collapsible
                   key={item.title}
@@ -114,7 +128,7 @@ export default function AppSidebar() {
                     </CollapsibleTrigger>
                     <CollapsibleContent>
                       <SidebarMenuSub>
-                        {item.items?.map((subItem) => (
+                        {item.items?.map((subItem: any) => (
                           <SidebarMenuSubItem key={subItem.title}>
                             <SidebarMenuSubButton
                               asChild

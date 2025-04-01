@@ -6,7 +6,7 @@ import { notFound } from "next/navigation";
 export default async function Page({
   params,
 }: {
-  params: { teamMemberId: string };
+  params: Promise<{ teamMemberId: string }>;
 }) {
   const { teamMemberId } = await params;
 

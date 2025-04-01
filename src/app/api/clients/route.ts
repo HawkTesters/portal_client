@@ -1,6 +1,7 @@
 // app/api/clients/route.ts
-import { NextResponse } from "next/server";
+
 import { prisma } from "@/lib/prisma";
+import { NextResponse } from "next/server";
 
 export async function GET() {
   try {
@@ -21,9 +22,9 @@ export async function POST(request: Request) {
   try {
     const body = await request.json();
     // Expecting { name: string, email?: string }
-    const { name, email } = body;
+    const { name } = body;
     const client = await prisma.client.create({
-      data: { name, email },
+      data: { name },
     });
     return NextResponse.json(client, { status: 201 });
   } catch (error) {

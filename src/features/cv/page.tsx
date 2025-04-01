@@ -1,10 +1,11 @@
 "use client";
 
-import React from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Heading } from "@/components/ui/heading";
+import { Separator } from "@/components/ui/separator";
+import React from "react";
+
 
 export interface CVData {
   profileImage: string;
@@ -29,14 +30,13 @@ export interface CVData {
     description: string;
   }[];
   services: { icon: string; alt: string; name: string; description: string }[];
-  cves: string[];
+  cves?: string[];
   userCertifications: {
     certification: {
       alt: string;
       logo: string;
       title: string;
     };
-    logo: string;
     href: string;
   }[];
   achievements: {
@@ -46,7 +46,7 @@ export interface CVData {
     href?: string;
   }[];
   testimonials: { quote: string; image: string; name: string }[];
-  translations: {
+  translations?: {
     sidebar: {
       downloadCV: string;
       mail: string;
@@ -96,6 +96,7 @@ export interface CVData {
   };
   lang?: string;
 }
+
 
 interface CVPageProps {
   cvData: CVData;
