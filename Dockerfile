@@ -34,4 +34,4 @@ COPY --from=builder /app/prisma ./prisma
 EXPOSE 9085
 
 # Run Prisma migrations, seed, and start the app
-CMD ["sh", "-c", "npx prisma migrate deploy && npm run seedProd && npm start"]
+CMD ["sh", "-c", "npx prisma generate && npx prisma migrate deploy && npm run seedProd && npm start"]
