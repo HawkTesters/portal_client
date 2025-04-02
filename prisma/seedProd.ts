@@ -17,7 +17,7 @@ function getGravatarUrl(email: string) {
   return `${base}${hash}?d=identicon`;
 }
 
-const isaacCV = require("./isaac_cv.json");
+const isaacCV = require("./prisma/isaac_cv.json");
 
 const prisma = new PrismaClient();
 
