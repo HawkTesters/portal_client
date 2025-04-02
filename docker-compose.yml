@@ -1,13 +1,12 @@
 version: "3.9"
 
-env_file:
-  - .env.docker
-
 services:
   app:
     build: .
     ports:
-      - "3000:3000"
+      - "9085:9085"
+    env_file:
+      - .env
     environment:
       DATABASE_URL: ${DATABASE_URL}
       NODE_ENV: ${NODE_ENV}
@@ -17,6 +16,8 @@ services:
 
   db:
     image: postgres:16-alpine
+    env_file:
+      - .env
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
