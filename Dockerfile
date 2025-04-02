@@ -29,6 +29,7 @@ RUN npm install --production
 # Copy the built application from the builder stage
 COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/prisma ./prisma
+COPY --from=builder /app/.next ./.next
 
 # Expose the port the app runs on
 EXPOSE 9085
