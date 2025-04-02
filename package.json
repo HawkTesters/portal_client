@@ -8,7 +8,7 @@
     "start": "next start -p 9085",
     "lint": "next lint",
     "seed": "npm run seed:build && node dist/prisma/seed.js",
-    "seedProd": "npm run seedProd:build && node dist/prisma/seedProd.js",
+    "seedProd": "npm run seedProd:build && node dist/seedProd.js",
     "seed:build": "tsc prisma/seed.ts --outDir dist",
     "seedProd:build": "tsc prisma/seedProd.ts --outDir dist"
   },
