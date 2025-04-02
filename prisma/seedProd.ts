@@ -1,6 +1,21 @@
-const { hashPassword } = require("../src/lib/password-utils");
-const { getGravatarUrl } = require("../src/lib/utils");
+import * as argon2 from "argon2";
+import * as md5 from "md5";
+
 const { AssessmentStatus, PrismaClient, UserType } = require("@prisma/client");
+
+// Hash a plain-text password
+async function hashPassword(plainPassword: string) {
+  // Adjust saltRounds as needed (default: 10-12 for typical usage)
+  const hashed = await argon2.hash(plainPassword);
+  return hashed;
+}
+
+function getGravatarUrl(email: string) {
+  const base = "https://www.gravatar.com/avatar/";
+  const hash = md5(email.trim().toLowerCase());
+  // Use the 'd' parameter to pick a fallback (identicon, monsterid, wavatar, retro, robohash, etc.)
+  return `${base}${hash}?d=identicon`;
+}
 
 const isaacCV = require("./isaac_cv.json");
 
