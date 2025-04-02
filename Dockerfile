@@ -30,6 +30,7 @@ RUN npm install --production
 COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/prisma ./prisma
 COPY --from=builder /app/.next ./.next
+COPY --from=builder /app/public ./public
 
 # Expose the port the app runs on
 EXPOSE 9085
